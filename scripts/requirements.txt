@@ -1,0 +1,7 @@
+# Python dependencies for data generation scripts
+
+faker==22.0.0
+sqlalchemy>=2.0.38,<2.1
+# psycopg3 binary wheels (compatible with Python 3.13); 3.3.x is current latest
+psycopg[binary]==3.3.2
+python-dotenv==1.0.1
