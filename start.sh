@@ -5,4 +5,4 @@ set -e
 pip install -r scripts/requirements.txt
 
 # Run the data generation script for the current month
-python scripts/generate_monthly_data.py --month $(date '+%Y-%m')
+python scripts/generate_monthly_data.py --month 2026-02
