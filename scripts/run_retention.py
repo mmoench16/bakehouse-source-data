@@ -117,7 +117,7 @@ def run_retention(months_to_keep: int, dry_run: bool = False):
             return
 
         connection.execute(
-            text("CALL prod.apply_data_retention(:months_to_keep)"),
+            text("CALL prod.apply_data_retention(CAST(:months_to_keep AS INTEGER))"),
             {"months_to_keep": months_to_keep},
         )
 
