@@ -400,7 +400,7 @@ def main():
     if not database_url:
         print("Error: DATABASE_URL environment variable not set")
         print("Set it in your .env file or environment:")
-        print("  DATABASE_URL='postgresql://user:pass@host:port/bakehouse_dev'")
+        print("  DATABASE_URL='postgresql://user:pass@host:port/bakehouse'")
         sys.exit(1)
 
     # If URL uses plain postgresql://, SQLAlchemy defaults to psycopg2.

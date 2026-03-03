@@ -7,9 +7,9 @@
 -- Run this block ONCE to initialize the database and schemas on Railway.
 -- After this, the schema creation can be commented out for subsequent runs.
 
--- psql $RAILWAY_DATABASE_URL -c "CREATE DATABASE IF NOT EXISTS bakehouse_dev;"
+-- psql $RAILWAY_DATABASE_URL -c "CREATE DATABASE bakehouse;"
 
--- Connect to bakehouse_dev and run the schema creation below:
+-- Connect to bakehouse and run the schema creation below:
 -- psql $RAILWAY_DATABASE_URL -c "CREATE SCHEMA IF NOT EXISTS stg;"
 -- psql $RAILWAY_DATABASE_URL -c "CREATE SCHEMA IF NOT EXISTS prod;"
 -- psql $RAILWAY_DATABASE_URL -c "CREATE SCHEMA IF NOT EXISTS analytics;"
