@@ -1,14 +1,22 @@
-from fastapi import APIRouter, Query
+from fastapi import APIRouter, Query, Request
 from sqlalchemy import text
 
 from api.db import get_engine
+from api.limiter import limiter
 from api.schemas import DemoSummary, DemoTransaction, DemoTransactionPage
 
 router = APIRouter(prefix="/demo", tags=["demo"])
 
 
-@router.get("/summary", response_model=DemoSummary)
-def demo_summary():
+@router.get(
+    "/summary",
+    response_model=DemoSummary,
+    summary="Aggregated sales summary",
+    description="Returns high-level sales metrics for the current data window. No authentication required. PII fields are excluded.",
+    response_description="Aggregated summary of transactions in the current retention window",
+)
+@limiter.limit("50/day")
+def demo_summary(request: Request):
     engine = get_engine()
 
     with engine.connect() as connection:
@@ -49,8 +57,15 @@ def demo_summary():
         )
 
 
-@router.get("/transactions", response_model=DemoTransactionPage)
-def demo_transactions(limit: int = Query(default=25, ge=1, le=100)):
+@router.get(
+    "/transactions",
+    response_model=DemoTransactionPage,
+    summary="Browse recent transactions",
+    description="Returns a paginated list of recent transactions, ordered most-recent first. Limit is capped at 100. No authentication required. PII fields (customer identity, register) are excluded.",
+    response_description="A page of sanitised transaction records",
+)
+@limiter.limit("50/day")
+def demo_transactions(request: Request, limit: int = Query(default=25, ge=1, le=100)):
     engine = get_engine()
 
     with engine.connect() as connection:

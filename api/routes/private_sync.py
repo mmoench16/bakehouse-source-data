@@ -51,7 +51,17 @@ def get_metadata(connection) -> ApiMetadata:
     )
 
 
-@router.get("/transactions", response_model=TransactionPage)
+@router.get(
+    "/transactions",
+    response_model=TransactionPage,
+    summary="Incremental transaction sync",
+    description=(
+        "Returns a page of transactions in ascending chronological order, suitable for incremental extraction. "
+        "Pass the `next_cursor` from the previous response as the `after` parameter to advance the page. "
+        "The cursor is an opaque base64-encoded value encoding `{transaction_datetime, transaction_id}`. "
+        "Requires `X-API-Key` header."
+    ),
+)
 def get_transactions(
     limit: int = Query(default=500, ge=1, le=5000),
     after: Optional[str] = Query(default=None),
@@ -164,7 +174,16 @@ def get_transactions(
         )
 
 
-@router.get("/transaction-items", response_model=TransactionItemPage)
+@router.get(
+    "/transaction-items",
+    response_model=TransactionItemPage,
+    summary="Incremental line-item sync",
+    description=(
+        "Returns a page of transaction line items in ascending order, suitable for incremental extraction. "
+        "The cursor encodes `{transaction_datetime, transaction_id, line_number}` to handle the composite sort key. "
+        "Requires `X-API-Key` header."
+    ),
+)
 def get_transaction_items(
     limit: int = Query(default=1000, ge=1, le=10000),
     after: Optional[str] = Query(default=None),

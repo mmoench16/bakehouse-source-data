@@ -60,19 +60,19 @@ class TransactionItemPage(BaseModel):
 
 
 class DemoSummary(BaseModel):
-    watermark_utc: datetime
-    latest_transaction_date: Optional[date]
-    total_transactions: int
-    total_revenue: Decimal
-    top_products: list[dict]
+    watermark_utc: datetime = Field(description="Time this summary was generated (UTC)")
+    latest_transaction_date: Optional[date] = Field(description="Date of the most recent transaction in the dataset")
+    total_transactions: int = Field(description="Total number of transactions in the current retention window")
+    total_revenue: Decimal = Field(description="Sum of all transaction totals in GBP")
+    top_products: list[dict] = Field(description="Top 5 products by quantity sold, each with product_name, total_quantity, and total_revenue")
 
 
 class DemoTransaction(BaseModel):
-    transaction_id: str
-    transaction_datetime: datetime
-    store_id: Optional[str]
-    payment_method: Optional[str]
-    total: Decimal
+    transaction_id: str = Field(description="Unique identifier for the transaction")
+    transaction_datetime: datetime = Field(description="UTC timestamp of the transaction")
+    store_id: Optional[str] = Field(description="Store location identifier")
+    payment_method: Optional[str] = Field(description="Payment method used (e.g. card, cash)")
+    total: Decimal = Field(description="Transaction total in GBP")
 
 
 class DemoTransactionPage(BaseModel):
